@@ -13,6 +13,7 @@ int main() {
     int userInput = -1; //CWE-457
     float num1, num2 = -1;
     bool endFlag = false;
+    int loopCount = 1;
 
     while(!endFlag) {
         cout << "Select an option: " << endl;
@@ -26,6 +27,7 @@ int main() {
         cin >> userInput;
         if(cin) {
             if(userInput == 0) { //CWE-480
+                cout << "Program ran " << loopCount << " times!" << endl;
                 cout << "Goodbye" << endl;
                 endFlag = true;
             }
@@ -65,6 +67,9 @@ int main() {
             cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             cout << "Please enter an integer" << endl;
         }
+        if(loopCount != INT_MAX) { //CWE-128
+            loopCount++;
+        }
     }
 }
 
@@ -83,7 +88,7 @@ float conMultiplication(int num1, int num2) {
         threads.push_back(move(newThread));
     }
     vector<thread>::iterator curThread = threads.begin();
-    while(curThread != threads.end()) { //CWE-128 (avoids curThread from incrementing past max value to an undefined value)
+    while(curThread != threads.end()) {
         curThread->join();
         curThread++;
     }
