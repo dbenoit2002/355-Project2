@@ -31,7 +31,10 @@ int main() {
                 cout << "Goodbye" << endl;
                 endFlag = true;
             }
-            else if(userInput < 0 || userInput > 5){
+            else if(userInput > 5){ //CWE-839
+                cout << "Please enter a valid option" << endl;
+            }
+            else if(userInput < 0){
                 cout << "Please enter a valid option" << endl;
             }
             else {
@@ -39,7 +42,7 @@ int main() {
                 cin >> num1 >> num2;
                 if(cin) {
                     cout << "Result: ";
-                    if(userInput == 1) {
+                    if(userInput == 1) { //CWE-482
                         cout << num1 + num2 << endl;
                     }
                     else if(userInput == 2) {
@@ -77,7 +80,7 @@ float conMultiplication(int num1, int num2) {
     mutex mutex;
     float result = 0;
     vector<thread> threads;
-    bool negFlag = false;
+    bool negFlag = false; 
     if(num2 < 0) { //covers when num2 is negative
         negFlag = true;
         num2 *= -1;
