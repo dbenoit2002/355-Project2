@@ -29,9 +29,13 @@ public class User {
     public float getBalance() {
         return balance;
     }
-    public void addToCart(String item) {
-        cart[numItems] = item;
-        numItems++;
+    public boolean addToCart(String item) {
+        if(numItems != MAX_CART_SIZE) {
+            cart[numItems] = item;
+            numItems++;
+            return true;
+        }
+        return false;
     }
     public boolean removeFromCart(String item) {
         for(int i = 0; i < numItems; i++) {
