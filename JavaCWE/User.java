@@ -1,17 +1,19 @@
 package JavaCWE;
 
-import java.util.Vector;
-
 public class User {
+    public static final int MAX_CART_SIZE = 1000;
+
     private String firstName;
     private String lastName;
-    private Vector<String> cart;
+    private String cart[]; //CWE-582
+    private int numItems;
     private float balance;
 
     public User(String fname, String lname, float balance) {
         firstName = fname;
         lastName = lname;
-        cart = new Vector<String>();
+        cart = new String[MAX_CART_SIZE];
+        numItems = 0;
         this.balance = balance;
     }
 
@@ -21,18 +23,25 @@ public class User {
     public String getLastName() {
         return lastName;
     }
-    public Vector<String> getCart() {
+    public String[] getCart() {
         return cart;
     }
     public float getBalance() {
         return balance;
     }
     public void addToCart(String item) {
-        cart.add(item);
+        cart[numItems] = item;
+        numItems++;
     }
     public boolean removeFromCart(String item) {
-        if(cart.remove(item)) {
-            return true;
+        for(int i = 0; i < numItems; i++) {
+            if(cart[i] == item) {
+                for(int j = i; j < numItems - 1; j++){
+                    cart[j] = cart[j+1];
+                }
+                numItems--;
+                return true;
+            }
         }
         return false;
     }
@@ -41,5 +50,14 @@ public class User {
     }
     public void removeFromBalance(float num) {
         balance -= num;
+    }
+    
+    public boolean equals(User user) {
+        if(this.getClass() == user.getClass()) { //CWE-486
+            if(this.firstName == user.firstName && this.lastName == user.lastName) {
+                return true;
+            }
+        }
+        return false;
     }
 }
