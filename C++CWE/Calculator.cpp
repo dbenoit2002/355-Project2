@@ -21,6 +21,7 @@ int main() {
     int numChange;
     int replaceNum;
     int multiTotal = 1;
+    int loopCount = 1;
 
     while(!endFlag) {
         cout << "Select an option: " << endl;
@@ -36,10 +37,14 @@ int main() {
         cin >> userInput;
         if(cin) {
             if(userInput == 0) { //CWE-480
+                cout << "Program ran " << loopCount << " times!" << endl;
                 cout << "Goodbye" << endl;
                 endFlag = true;
             }
-            else if(userInput < 0 || userInput > 7){
+            else if(userInput > 7){ //CWE-839
+                cout << "Please enter a valid option" << endl;
+            }
+            else if(userInput < 0){
                 cout << "Please enter a valid option" << endl;
             }
             else {
@@ -54,6 +59,8 @@ int main() {
                         cout << "Result: ";
                     }
                     if(userInput == 1) {
+                    cout << "Result: ";
+                    if(userInput == 1) { //CWE-482
                         cout << num1 + num2 << endl;
                     }
                     else if(userInput == 2) {
@@ -203,6 +210,9 @@ int main() {
             cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             cout << "Please enter an integer" << endl;
         }
+        if(loopCount != INT_MAX) { //CWE-128
+            loopCount++;
+        }
     }
     free(arr);
 }
@@ -211,7 +221,7 @@ float conMultiplication(int num1, int num2) {
     mutex mutex;
     float result = 0;
     vector<thread> threads;
-    bool negFlag = false;
+    bool negFlag = false; 
     if(num2 < 0) { //covers when num2 is negative
         negFlag = true;
         num2 *= -1;
@@ -222,7 +232,7 @@ float conMultiplication(int num1, int num2) {
         threads.push_back(move(newThread));
     }
     vector<thread>::iterator curThread = threads.begin();
-    while(curThread != threads.end()) { //CWE-128 (avoids curThread from incrementing past max value to an undefined value)
+    while(curThread != threads.end()) {
         curThread->join();
         curThread++;
     }
