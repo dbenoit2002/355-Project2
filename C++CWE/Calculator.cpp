@@ -41,10 +41,10 @@ int main() {
                 cout << "Goodbye" << endl;
                 endFlag = true;
             }
-            else if(userInput > 7){ //CWE-839
+            else if(userInput > 7) { //CWE-839
                 cout << "Please enter a valid option" << endl;
             }
-            else if(userInput < 0){
+            else if(userInput < 0) {
                 cout << "Please enter a valid option" << endl;
             }
             else {
@@ -58,8 +58,6 @@ int main() {
                     {
                         cout << "Result: ";
                     }
-                    if(userInput == 1) {
-                    cout << "Result: ";
                     if(userInput == 1) { //CWE-482
                         cout << num1 + num2 << endl;
                     }
@@ -78,10 +76,10 @@ int main() {
                     else if(userInput == 6) {
                         cout << "How many numbers would you like to add? (Must be at least 2)" << endl;
                         cin >> arrSizeInput;
-                        if(arrSizeInput >= 2)
+                        if(arrSizeInput >= 2) //CWE-192
                         {
                             arrSizePtr = &arrSizeInput;
-                            arr = static_cast<int*>(malloc(sizeof(*arrSizePtr)));
+                            arr = static_cast<int*>(malloc(sizeof(*arrSizePtr))); //CWE-467
                             if (arr == nullptr) {
                                 std::cerr << "Memory allocation failed." << std::endl;
                             }
@@ -102,7 +100,7 @@ int main() {
                                             cout << "What number position would you like to change? (i.e. 1, 2, 3, etc.)"<< endl;
                                             cin >> numChange;
                                             numChange--;
-                                            if(numChange >= 0 && numChange < arrSizeInput)
+                                            if(numChange >= 0 && numChange < arrSizeInput) //CWE-129
                                             {
                                                 cout << "Please input a replacement number: "<< endl;
                                                 cin >> replaceNum;
@@ -139,10 +137,10 @@ int main() {
                     else if(userInput == 7) {
                         cout << "How many numbers would you like to multiply? (Must be at least 2)" << endl;
                         cin >> arrSizeInput;
-                        if(arrSizeInput >= 2)
+                        if(arrSizeInput >= 2) //CWE-192
                         {
                             arrSizePtr = &arrSizeInput;
-                            arr = static_cast<int*>(malloc(sizeof(*arrSizePtr)));
+                            arr = static_cast<int*>(malloc(sizeof(*arrSizePtr))); //CWE-467
                             if (arr == nullptr) {
                                 std::cerr << "Memory allocation failed." << std::endl;
                             }
@@ -163,7 +161,7 @@ int main() {
                                             cout << "What number position would you like to change? (i.e. 1, 2, 3, etc.)"<< endl;
                                             cin >> numChange;
                                             numChange--;
-                                            if(numChange >= 0 && numChange < arrSizeInput)
+                                            if(numChange >= 0 && numChange < arrSizeInput) //CWE-129
                                             {
                                                 cout << "Please input a replacement number: "<< endl;
                                                 cin >> replaceNum;
@@ -214,7 +212,7 @@ int main() {
             loopCount++;
         }
     }
-    free(arr);
+    free(arr); //CWE-416
 }
 
 float conMultiplication(int num1, int num2) {
