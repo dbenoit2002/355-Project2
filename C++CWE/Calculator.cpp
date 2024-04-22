@@ -10,8 +10,8 @@ float conMultiplication(int num1, int num2);
 void multHelper(float *result, mutex *mutex, int num);
 
 int main() {
-    int userInput;
-    float num1, num2;
+    int userInput = -1; //CWE-457
+    float num1, num2 = -1;
     bool endFlag = false;
 
     while(!endFlag) {
@@ -25,7 +25,7 @@ int main() {
 
         cin >> userInput;
         if(cin) {
-            if(userInput == 0) {
+            if(userInput == 0) { //CWE-480
                 cout << "Goodbye" << endl;
                 endFlag = true;
             }
@@ -82,8 +82,8 @@ float conMultiplication(int num1, int num2) {
         thread newThread(multHelper, &result, &mutex, num1);
         threads.push_back(move(newThread));
     }
-    auto curThread = threads.begin();
-    while(curThread != threads.end()) {
+    vector<thread>::iterator curThread = threads.begin();
+    while(curThread != threads.end()) { //CWE-128 (avoids curThread from incrementing past max value to an undefined value)
         curThread->join();
         curThread++;
     }
@@ -94,7 +94,7 @@ float conMultiplication(int num1, int num2) {
 }
 
 void multHelper(float *result, mutex *mutex, int num) {
-    (*mutex).lock(); //CWE 366
+    (*mutex).lock(); //CWE-366
     *result += num;
     (*mutex).unlock();
 }
