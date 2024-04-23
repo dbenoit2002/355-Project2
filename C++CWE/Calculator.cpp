@@ -15,7 +15,7 @@ int main() {
     bool endFlag = false;
     int arrSizeInput = 0;
     int* arrSizePtr;
-    int* arr;
+    int* arr = NULL;
     int addTotal = 0;
     string yesOrNo = "T";
     int numChange;
