@@ -20,15 +20,19 @@ public class User {
     public String getFirstName() {
         return firstName;
     }
+
     public String getLastName() {
         return lastName;
     }
+
     public String[] getCart() {
         return cart;
     }
+
     public float getBalance() {
         return balance;
     }
+
     public boolean addToCart(String item) {
         if(numItems != MAX_CART_SIZE) {
             cart[numItems] = item;
@@ -37,6 +41,7 @@ public class User {
         }
         return false;
     }
+
     public boolean removeFromCart(String item) {
         for(int i = 0; i < numItems; i++) {
             if(cart[i] == item) {
@@ -49,9 +54,11 @@ public class User {
         }
         return false;
     }
+
     public void addToBalance(float num) {
         balance += num;
     }
+    
     public void removeFromBalance(float num) {
         balance -= num;
     }
