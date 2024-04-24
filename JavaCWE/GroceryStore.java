@@ -2,27 +2,28 @@ package JavaCWE;
 
 import java.util.Vector;
 import java.util.Random;
-import java.util.Scanner;
 
 public class GroceryStore {
     private String storeName;
     private Vector<InventoryItem> inventory;
 
+    public static int getRandomID()
+    {
+        Random rand = new Random();
+        return rand.nextInt(1000);
+    }
+
+    public static final int storeID = getRandomID(); //CWE-500
+
     private static class InventoryItem { //CWE-492
         private String name;
         private int itemCount;
+        private double price;
 
-        public static int getRandomID()
-        {
-            Random rand = new Random();
-            return rand.nextInt(1000);
-        }
-
-        public static final int id = getRandomID(); //CWE-500
-
-        public InventoryItem(String name, int itemCount) {
+        public InventoryItem(String name, int itemCount, double price) {
             this.name = name;
             this.itemCount = itemCount;
+            this.price = price;
         }
         public String getName() {
             return name;
@@ -30,11 +31,15 @@ public class GroceryStore {
         private int getCount() {
             return itemCount;
         }
-        public int getID() {
-            return id;
+        private double getPrice() {
+            return price;
         }
         private void updateCount(int count) {
             this.itemCount = count;
+        }
+        private void updatePrice(double itemPrice)
+        {
+            this.price = itemPrice;
         }
     }
 
@@ -46,9 +51,19 @@ public class GroceryStore {
     public String getName() {
         return storeName;
     }
+
     public Vector<InventoryItem> getInventory() {
         return inventory;
     }
+
+    public int getID() {
+        return storeID;
+    }
+
+    public void printStoreID() {
+        System.out.println(storeName + "'s ID number is: " + storeID);
+    }
+    
     public InventoryItem getItem(String name) {
         for(InventoryItem item : inventory) {
             if(item.getName().equals(name)) {
@@ -57,21 +72,25 @@ public class GroceryStore {
         }
         return null;
     }
-    public void addItem(String name, int count) {
+
+    public boolean addItem(String name, int count, double itemPrice) {
         for(InventoryItem item : inventory) {
             if(item.getName().equals(name)) {
-                if(item.getCount() == count) { //no changes
-                    return;
-                }
-                else {
+                if(item.getCount() != count) {
                     item.updateCount(count); //update count
-                    return;
                 }
+                if(item.getPrice() != itemPrice) {
+                    item.updatePrice(itemPrice); //update price
+                }
+                System.out.println("Item exists. Item has been updated with the new count and price you specified.");
+                return false;
             }
         }
-        InventoryItem item = new InventoryItem(name, count); //new item
+        InventoryItem item = new InventoryItem(name, count, itemPrice); //new item
         inventory.add(item);
+        return true;
     }
+
     public boolean updateItemCount(String name, int count) {
         try{
         for(InventoryItem item : inventory) {
@@ -88,6 +107,7 @@ public class GroceryStore {
         //CWE-537 (current item count is not exposed)
         return false;
     }
+
     public boolean removeItem(String name) {
         try{
             for(InventoryItem item : inventory) {
@@ -104,55 +124,26 @@ public class GroceryStore {
         
         return false;
     }
-    public boolean findItemUsingID(int id) {
+
+    public boolean updateItemPrice(String name, double itemPrice)
+    {
         for(InventoryItem item : inventory) {
-            if(item.getID() == id) {
-                System.out.println("Item Found! The name of this item is: " + item.getName());
+            if(item.getName().equals(name)) {
+                item.updatePrice(itemPrice);;
                 return true;
             }
         }
-        System.out.println("Could not find item of ID: " + id);
+        System.out.println("Could not find item " + name); //CWE-537 (current item count is not exposed)
         return false;
     }
-
-    public static void main(String[] args)
-    {
-        boolean endFlag = false;
-        Scanner scan = new Scanner(System.in);
-        int userInput = -1;
-        String itemName;
-        int itemCount;
-        GroceryStore gs;
-        gs = new GroceryStore("Grocery Store");
-        if(gs != null) // CWE-476
-        {
-            while(!endFlag) {
-                System.out.println("Select an option: ");
-                System.out.println("0: exit");
-                System.out.println("1: Add an item");
-                System.out.println("2: Edit the number of a specific item you have added");
-                System.out.println("3: Remove an item from inventory");
-                System.out.println("4: Get an item's ID");
-                System.out.println("5: Find an item using it's ID number");
-
-                userInput = scan.nextInt();
-                if(userInput >= 0 && userInput <= 5)
-                {
-                    if(userInput == 0)
-                    {
-                        System.out.println("Goodbye");
-                        endFlag = true;
-                    }
-                    else if(userInput == 1)
-                    {
-                        System.out.println("What will the item be called");
-                    }
-                }
-                else
-                {
-                    System.out.println("Please enter a valid option");
-                }
-            }
+    
+    public void printInventory() {
+        int count = 1;
+        for(InventoryItem item : inventory) {
+            System.out.println("Item " + count + ": " + item.getName());
+            System.out.println("Item " + count + "'s Inventory Count: " + item.getCount());
+            System.out.println("Item " + count + "'s Price: " + item.getPrice());
+            count++;
         }
     }
 }
