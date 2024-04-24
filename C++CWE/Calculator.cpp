@@ -79,7 +79,7 @@ int main() {
                         if(arrSizeInput >= 2) //CWE-192
                         {
                             arrSizePtr = &arrSizeInput;
-                            arr = static_cast<int*>(malloc(sizeof(*arrSizePtr))); //CWE-467
+                            arr = static_cast<int*>(malloc(sizeof(*arrSizePtr))); //CWE-467, CWE-170, CWE-122
                             if (arr == nullptr) {
                                 std::cerr << "Memory allocation failed." << std::endl;
                             }
@@ -140,7 +140,7 @@ int main() {
                         if(arrSizeInput >= 2) //CWE-192
                         {
                             arrSizePtr = &arrSizeInput;
-                            arr = static_cast<int*>(malloc(sizeof(*arrSizePtr))); //CWE-467
+                            arr = static_cast<int*>(malloc(sizeof(*arrSizePtr))); //CWE-467, CWE-170, CWE-122
                             if (arr == nullptr) {
                                 std::cerr << "Memory allocation failed." << std::endl;
                             }
@@ -213,6 +213,7 @@ int main() {
         }
     }
     free(arr); //CWE-416
+    arr = NULL; //CWE-415
 }
 
 float conMultiplication(int num1, int num2) {

@@ -73,23 +73,35 @@ public class GroceryStore {
         inventory.add(item);
     }
     public boolean updateItemCount(String name, int count) {
+        try{
         for(InventoryItem item : inventory) {
             if(item.getName().equals(name)) {
                 item.updateCount(count);
                 return true;
+            }else{
+                throw new NullPointerException("Error"); 
             }
         }
-        System.out.println("Could not find item " + name); //CWE-537 (current item count is not exposed)
+        }catch (NullPointerException e){
+            System.out.println("Could not find item " + name);
+        } //CWE-248 and CWE-396
+        //CWE-537 (current item count is not exposed)
         return false;
     }
     public boolean removeItem(String name) {
-        for(InventoryItem item : inventory) {
-            if(item.getName().equals(name)) {
-                inventory.remove(item);
-                return true;
+        try{
+            for(InventoryItem item : inventory) {
+                if(item.getName().equals(name)) {
+                    inventory.remove(item);
+                    return true;
+                }else{
+                    throw new NullPointerException("Missing Error");
+                }
             }
-        }
-        System.out.println("Could not find item " + name);
+        }catch (NullPointerException e){
+            System.out.println("Could not find item " + name);
+        } //CWE-248 and CWE-396
+        
         return false;
     }
     public boolean findItemUsingID(int id) {
