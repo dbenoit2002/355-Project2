@@ -73,6 +73,24 @@ public class GroceryStore {
         return null;
     }
 
+    public double getItemPrice(String name) {
+        for(InventoryItem item : inventory) {
+            if(item.getName().equals(name)) {
+                return item.getPrice();
+            }
+        }
+        return 0.0;
+    }
+
+    public int getItemCount(String name) {
+        for(InventoryItem item : inventory) {
+            if(item.getName().equals(name)) {
+                return item.getCount();
+            }
+        }
+        return -1;
+    }
+
     public boolean addItem(String name, int count, double itemPrice) {
         for(InventoryItem item : inventory) {
             if(item.getName().equals(name)) {
