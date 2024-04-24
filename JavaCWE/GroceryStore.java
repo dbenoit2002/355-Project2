@@ -35,7 +35,7 @@ public class GroceryStore {
             return price;
         }
         private void updateCount(int count) {
-            this.itemCount = count;
+            this.itemCount = count; // CWE-481
         }
         private void updatePrice(double itemPrice)
         {
@@ -53,7 +53,7 @@ public class GroceryStore {
     }
 
     public Vector<InventoryItem> getInventory() {
-        return inventory;
+        return new Vector<>(inventory); // CWE-495
     }
 
     public int getID() {
@@ -98,7 +98,7 @@ public class GroceryStore {
                 item.updateCount(count);
                 return true;
             }else{
-                throw new NullPointerException("Error"); 
+                throw new NullPointerException("Error"); // CWE-460
             }
         }
         }catch (NullPointerException e){

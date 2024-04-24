@@ -20,6 +20,7 @@ int main() {
     string yesOrNo = "T";
     int numChange;
     int replaceNum;
+    short replaceShort;
     int multiTotal = 1;
     int loopCount = 1;
 
@@ -85,7 +86,7 @@ int main() {
                             }
                             else
                             {
-                                for(int i = 0; i < arrSizeInput; i++)
+                                for(int i = 0; i < arrSizeInput; i++) // CWE-125
                                 {
                                     cout << "Input number " << i + 1 << " to be added: " << endl;
                                     cin >> arr[i];
@@ -104,7 +105,13 @@ int main() {
                                             {
                                                 cout << "Please input a replacement number: "<< endl;
                                                 cin >> replaceNum;
-                                                arr[numChange] = replaceNum;
+                                                if(replaceNum < std::numeric_limits<short>::max()) // CWE-197
+                                                {
+                                                    replaceShort = (short)replaceNum;
+                                                    arr[numChange] = replaceShort;
+                                                }
+                                                else
+                                                    arr[numChange] = replaceNum;
                                             }
                                             else
                                             {
@@ -165,7 +172,13 @@ int main() {
                                             {
                                                 cout << "Please input a replacement number: "<< endl;
                                                 cin >> replaceNum;
-                                                arr[numChange] = replaceNum;
+                                                if(replaceNum < std::numeric_limits<short>::max()) // CWE-197
+                                                {
+                                                    replaceShort = (short)replaceNum;
+                                                    arr[numChange] = replaceShort;
+                                                }
+                                                else
+                                                    arr[numChange] = replaceNum;
                                             }
                                             else
                                             {

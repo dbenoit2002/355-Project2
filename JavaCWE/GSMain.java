@@ -121,7 +121,7 @@ public class GSMain {
                         gs.printInventory();
                     }
                 }
-                else
+                else // CWE-478
                 {
                     System.out.println("Please enter a valid option");
                 }
