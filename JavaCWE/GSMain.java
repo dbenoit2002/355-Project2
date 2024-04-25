@@ -89,9 +89,16 @@ public class GSMain {
 
         if(gs.getItem(itemName) != null)
         {
-            user.addToCart(itemName);
-            gs.updateItemCount(itemName, gs.getItemCount(itemName) - 1);
-            System.out.println("Item has been successfully added to cart!");
+            if(gs.getItemCount(itemName) >= 1)
+            {
+                user.addToCart(itemName);
+                gs.updateItemCount(itemName, gs.getItemCount(itemName) - 1);
+                System.out.println("Item has been successfully added to cart!");
+            }
+            else
+            {
+                throw new NullPointerException("Error: The item is out of stock"); // CWE-460
+            }
         }
         else
         {

@@ -110,19 +110,17 @@ public class GroceryStore {
     }
 
     public boolean updateItemCount(String name, int count) {
-        try{
+        /* try{ */
         for(InventoryItem item : inventory) {
             if(item.getName().equals(name)) {
                 item.updateCount(count);
                 return true;
-            }else{
-                throw new NullPointerException("Error"); // CWE-460
             }
         }
-        }catch (NullPointerException e){
-            System.out.println("Could not find item " + name);
+        /* }catch (NullPointerException e){
         } //CWE-248 and CWE-396
-        //CWE-537 (current item count is not exposed)
+         */
+        System.out.println("Could not find item " + name); //CWE-537 (current item count is not exposed)
         return false;
     }
 
