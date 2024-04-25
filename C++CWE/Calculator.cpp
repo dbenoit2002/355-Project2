@@ -20,6 +20,7 @@ int main() {
     string yesOrNo = "T";
     int numChange;
     int replaceNum;
+    short replaceShort;
     int multiTotal = 1;
     int loopCount = 1;
 
@@ -79,13 +80,13 @@ int main() {
                         if(arrSizeInput >= 2) //CWE-192
                         {
                             arrSizePtr = &arrSizeInput;
-                            arr = static_cast<int*>(malloc(sizeof(*arrSizePtr))); //CWE-467
+                            arr = static_cast<int*>(malloc(sizeof(*arrSizePtr))); //CWE-467, CWE-170, CWE-122
                             if (arr == nullptr) {
                                 std::cerr << "Memory allocation failed." << std::endl;
                             }
                             else
                             {
-                                for(int i = 0; i < arrSizeInput; i++)
+                                for(int i = 0; i < arrSizeInput; i++) // CWE-125
                                 {
                                     cout << "Input number " << i + 1 << " to be added: " << endl;
                                     cin >> arr[i];
@@ -104,7 +105,13 @@ int main() {
                                             {
                                                 cout << "Please input a replacement number: "<< endl;
                                                 cin >> replaceNum;
-                                                arr[numChange] = replaceNum;
+                                                if(replaceNum < std::numeric_limits<short>::max()) // CWE-197
+                                                {
+                                                    replaceShort = (short)replaceNum;
+                                                    arr[numChange] = replaceShort;
+                                                }
+                                                else
+                                                    arr[numChange] = replaceNum;
                                             }
                                             else
                                             {
@@ -140,7 +147,7 @@ int main() {
                         if(arrSizeInput >= 2) //CWE-192
                         {
                             arrSizePtr = &arrSizeInput;
-                            arr = static_cast<int*>(malloc(sizeof(*arrSizePtr))); //CWE-467
+                            arr = static_cast<int*>(malloc(sizeof(*arrSizePtr))); //CWE-467, CWE-170, CWE-122
                             if (arr == nullptr) {
                                 std::cerr << "Memory allocation failed." << std::endl;
                             }
@@ -165,7 +172,13 @@ int main() {
                                             {
                                                 cout << "Please input a replacement number: "<< endl;
                                                 cin >> replaceNum;
-                                                arr[numChange] = replaceNum;
+                                                if(replaceNum < std::numeric_limits<short>::max()) // CWE-197
+                                                {
+                                                    replaceShort = (short)replaceNum;
+                                                    arr[numChange] = replaceShort;
+                                                }
+                                                else
+                                                    arr[numChange] = replaceNum;
                                             }
                                             else
                                             {
@@ -213,6 +226,7 @@ int main() {
         }
     }
     free(arr); //CWE-416
+    arr = NULL; //CWE-415
 }
 
 float conMultiplication(int num1, int num2) {

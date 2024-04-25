@@ -48,7 +48,7 @@ public class User {
 
     public boolean removeFromCart(String item) {
         for(int i = 0; i < numItems; i++) {
-            if(cart[i] == item) {
+            if(cart[i].equals(item)) {
                 for(int j = i; j < numItems - 1; j++){
                     cart[j] = cart[j+1];
                 }

@@ -81,16 +81,15 @@ public class GSMain {
     public void mainAddToCart(Scanner scan, User user, GroceryStore gs)
     {
         String itemName;
-        boolean returnFuncUser;
         System.out.println("Here is " + gs.getName() + "'s selection");
         gs.printInventory();
         
         System.out.println("Enter the item you would like to add: ");
         itemName = scan.nextLine();
 
-        returnFuncUser = user.addToCart(itemName);
-        if(returnFuncUser == true)
+        if(gs.getItem(itemName) != null)
         {
+            user.addToCart(itemName);
             gs.updateItemCount(itemName, gs.getItemCount(itemName) - 1);
             System.out.println("Item has been successfully added to cart!");
         }
@@ -179,97 +178,98 @@ public class GSMain {
         {
             System.out.println("You must add at least one item now.");
             main.mainAddItem(scan, gs);
-            while(!endFlagGS) {
-            System.out.println("Select an option to setup the grocery store: ");
-            System.out.println("0: exit & move to user experience");
-            System.out.println("1: Add another item");
-            System.out.println("2: Update the number of a specific item in the store's inventory");
-            System.out.println("3: Remove an item from the store's inventory");
-            System.out.println("4: Update the price of a specific item in the store's inventory");
-            System.out.println("5: Get the store ID number");
-            System.out.println("6: Print inventory");
-
-            userInputGS = Integer.parseInt(scan.nextLine());
-            if(userInputGS >= 0 && userInputGS <= 7)
+            while(!endFlagGS) 
             {
-                if(userInputGS == 0)
+                System.out.println("Select an option to setup the grocery store: ");
+                System.out.println("0: exit & move to user experience");
+                System.out.println("1: Add another item");
+                System.out.println("2: Update the number of a specific item in the store's inventory");
+                System.out.println("3: Remove an item from the store's inventory");
+                System.out.println("4: Update the price of a specific item in the store's inventory");
+                System.out.println("5: Get the store ID number");
+                System.out.println("6: Print inventory");
+
+                userInputGS = Integer.parseInt(scan.nextLine());
+                if(userInputGS >= 0 && userInputGS <= 6)
                 {
-                    System.out.println("Goodbye");
-                    endFlagGS = true;
+                    if(userInputGS == 0)
+                    {
+                        System.out.println("Goodbye");
+                        endFlagGS = true;
+                    }
+                    else if(userInputGS == 1)
+                    {
+                        main.mainAddItem(scan, gs);
+                    }
+                    else if(userInputGS == 2)
+                    {
+                        main.mainUpdateCount(scan, gs);
+                    }
+                    else if(userInputGS == 3)
+                    {
+                        main.mainRemoveItem(scan, gs);
+                    }
+                    else if(userInputGS == 4)
+                    {
+                        main.mainUpdatePrice(scan, gs);
+                    }
+                    else if(userInputGS == 5)
+                    {
+                        gs.printStoreID();
+                    }
+                    else if(userInputGS == 6)
+                    {
+                        gs.printInventory();
+                    }
                 }
-                else if(userInputGS == 1)
+                else
                 {
-                    main.mainAddItem(scan, gs);
-                }
-                else if(userInputGS == 2)
-                {
-                    main.mainUpdateCount(scan, gs);
-                }
-                else if(userInputGS == 3)
-                {
-                    main.mainRemoveItem(scan, gs);
-                }
-                else if(userInputGS == 4)
-                {
-                    main.mainUpdatePrice(scan, gs);
-                }
-                else if(userInputGS == 5)
-                {
-                    gs.printStoreID();
-                }
-                else if(userInputGS == 6)
-                {
-                    gs.printInventory();
+                    System.out.println("Please enter a valid option");
                 }
             }
-            else
-            {
-                System.out.println("Please enter a valid option");
-            }
-
             user = main.mainCreateUser(scan);
             if(user != null) // CWE-476 & CWE-395
             {
-                while(!endFlagUser) {
-                System.out.println("Select an option: ");
-                System.out.println("0: checkout");
-                System.out.println("1: Add item to cart");
-                System.out.println("2: Remove item from cart");
-                System.out.println("3: Deposit to balance");
-                System.out.println("4: Withdraw from balance");
+                while(!endFlagUser) 
+                {
+                    System.out.println("Select an option: ");
+                    System.out.println("0: checkout");
+                    System.out.println("1: Add item to cart");
+                    System.out.println("2: Remove item from cart");
+                    System.out.println("3: Deposit to balance");
+                    System.out.println("4: Withdraw from balance");
 
-            userInputUser = Integer.parseInt(scan.nextLine());
-            if(userInputUser >= 0 && userInputUser <= 4)
-            {
-                if(userInputUser == 0)
-                {
-                    endFlagUser = main.userCheckout(user, gs); // CWE-382
+                    userInputUser = Integer.parseInt(scan.nextLine());
+                    if(userInputUser >= 0 && userInputUser <= 4)
+                    {
+                        if(userInputUser == 0)
+                        {
+                            endFlagUser = main.userCheckout(user, gs); // CWE-382
+                        }
+                        else if(userInputUser == 1)
+                        {
+                            main.mainAddToCart(scan, user, gs);
+                        }
+                        else if(userInputUser == 2)
+                        {
+                            main.mainRemoveFromCart(scan, user, gs);
+                        }
+                        else if(userInputUser == 3)
+                        {
+                            main.mainAddToBalance(scan, user);
+                        }
+                        else if(userInputUser == 4)
+                        {
+                            main.mainRemoveFromBalance(scan, user);
+                        }
+                    }
+                    else
+                    {
+                        System.out.println("Please enter a valid option");
+                    }
                 }
-                else if(userInputUser == 1)
-                {
-                    main.mainAddToCart(scan, user, gs);
-                }
-                else if(userInputUser == 2)
-                {
-                    main.mainRemoveFromCart(scan, user, gs);
-                }
-                else if(userInputUser == 3)
-                {
-                    main.mainAddToBalance(scan, user);
-                }
-                else if(userInputUser == 4)
-                {
-                    main.mainRemoveFromBalance(scan, user);
-                }
-            }
-            else
-            {
-                System.out.println("Please enter a valid option");
-            }
             }
         }
         scan.close();
     }
-}
-}
 }   
