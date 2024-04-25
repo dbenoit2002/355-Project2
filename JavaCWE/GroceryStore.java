@@ -103,7 +103,7 @@ public class GroceryStore {
         }
         }catch (NullPointerException e){
             System.out.println("Could not find item " + name);
-        } //CWE-248 and CWE-396
+        } //CWE-248, CWE-396, and CWE-397
         //CWE-537 (current item count is not exposed)
         return false;
     }
@@ -120,7 +120,7 @@ public class GroceryStore {
             }
         }catch (NullPointerException e){
             System.out.println("Could not find item " + name);
-        } //CWE-248 and CWE-396
+        }
         
         return false;
     }

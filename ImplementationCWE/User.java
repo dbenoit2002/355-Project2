@@ -6,7 +6,8 @@ public class User {
     private String userName;
     private String password;
     private HashMap<String, Integer> groceryList;
-
+    //CWE-131 is prevented by using a Hashmap instead of a standard buffer
+    
     public User(String userName, String password) {
         this.userName = userName;
         this.password = password;

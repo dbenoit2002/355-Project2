@@ -26,7 +26,7 @@ public class GroceryListMaker {
                 userInput = Integer.parseInt(scanner.nextLine());
                 if(userInput < 0 || userInput > 2) {
                     System.out.println("Error: Please enter a valid option");
-                }
+                }//CWE-229
                 else if(userInput == 0) {
                     endFlag = true;
                 }
@@ -54,6 +54,7 @@ public class GroceryListMaker {
             } catch(NumberFormatException e) {
                 System.out.println("Error: Please enter a number");
             }
+            //CWE-252
         }
         scanner.close();
         return null;
