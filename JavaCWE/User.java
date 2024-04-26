@@ -12,7 +12,7 @@ public class User {
     public User(String fname, String lname, double balance) {
         firstName = fname;
         lastName = lname;
-        cart = new String[MAX_CART_SIZE]; //CWE-496
+        cart = new String[MAX_CART_SIZE];
         numItems = 0;
         this.balance = balance;
     }
@@ -37,7 +37,7 @@ public class User {
     public double getBalance() {
         return balance;
     }
-
+    //CWE-496
     public boolean addToCart(String item) {
         if(numItems != MAX_CART_SIZE) {
             cart[numItems] = item;
