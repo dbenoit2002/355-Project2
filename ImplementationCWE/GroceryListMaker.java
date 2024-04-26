@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 //CWE-546 (No suspicious comments exist)
 
 public class GroceryListMaker {
+    private static final int groceryListPrintSize = 10;
     private static final Pattern passwordPattern = Pattern.compile("^(?=.*[a-zA-Z\\d])(?=.*[@#$%^&+=]).{8,50}$");
 
     public static void main(String args[]) {
@@ -87,9 +88,10 @@ public class GroceryListMaker {
             System.out.println("2: Add item");
             System.out.println("3: Delete item");
             System.out.println("4: Remove multiple items");
+            System.out.println("5: Divide item count");
             try{
                 userInput = Integer.parseInt(scanner.nextLine());
-                if(userInput < 0 || userInput > 4) {
+                if(userInput < 0 || userInput > 5) {
                     System.out.println("Error: Please enter a valid option");
                 }
                 else if(userInput == 0) {
@@ -97,10 +99,32 @@ public class GroceryListMaker {
                     endFlag = true;
                 }
                 else if(userInput == 1){
-                    int count = 1;
-                    for(String item : curUser.getGroceryList().keySet()) {
-                        System.out.println(count + ": " + item + " - " + curUser.getGroceryList().get(item));
-                        count++;
+                    int count = 0;
+                    String[] groceryListItems = new String[groceryListPrintSize];
+                    int[] groceryListCounts = new int[groceryListPrintSize];
+                    if(curUser.getGroceryList().size() <= groceryListPrintSize) //CWE-193
+                    {
+                        for(String item : curUser.getGroceryList().keySet()) {
+                            groceryListItems[count] = item;
+                            groceryListCounts[count] = curUser.getGroceryList().get(item);
+                            
+                            count++;
+                        }
+                        if(count != 0)
+                        {
+                            for(int i = 0; i < count; i++)
+                            {
+                                System.out.println(i+1 + ": " + groceryListItems[i] + " - " + groceryListCounts[i]);
+                            }
+                        }
+                        else
+                        {
+                            System.out.println("Error: Grocery list is empty");
+                        }
+                    }
+                    else
+                    {
+                        System.out.println("Error: Grocery list is too big to print. Please remove items from your list.");
                     }
                 }
                 else {
@@ -138,6 +162,21 @@ public class GroceryListMaker {
                             System.out.println("Error: Please enter a number");
                         }
                     }
+                    else if(userInput == 5)
+                    {
+                        System.out.println("Enter the number to divide your item by: ");
+                        try {
+                            int divideNum = Integer.parseInt(scanner.nextLine());
+                            if(curUser.divideItem(item, divideNum)) {
+                                System.out.println("Successfully removed item(s)");
+                            }
+                            else {
+                                System.out.println("Error: Could not remove item(s)");
+                            }
+                        } catch (NumberFormatException e) {
+                            System.out.println("Error: Please enter a number");
+                        }
+                    }
                 }
             } catch(NumberFormatException e) {
                 System.out.println("Error: Please enter a number");
@@ -146,3 +185,4 @@ public class GroceryListMaker {
         scanner.close();
     }
 }
+//CWE-561

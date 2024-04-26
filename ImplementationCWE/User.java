@@ -60,4 +60,23 @@ public class User {
             return false;
         }
     }
+    public boolean divideItem(String item, Integer divideNum) {
+        if(divideNum > 0) //CWE-369
+        {
+            Integer curCount = groceryList.get(item);
+            if(curCount != null) {
+                if(divideNum != 1) {
+                    groceryList.put(item, curCount / divideNum);
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            else {
+                return false;
+            }
+        }
+        return false;
+    }
 }
