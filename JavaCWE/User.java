@@ -1,5 +1,7 @@
 package JavaCWE;
 
+import java.util.Arrays;
+
 public class User {
     public static final int MAX_CART_SIZE = 1000;
 
