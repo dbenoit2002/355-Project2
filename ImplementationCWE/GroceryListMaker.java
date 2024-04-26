@@ -8,7 +8,8 @@ import java.util.regex.Pattern;
 
 public class GroceryListMaker {
     private static final int groceryListPrintSize = 10;
-    private static final Pattern passwordPattern = Pattern.compile("^(?=.*[a-zA-Z\\d])(?=.*[@#$%^&+=]).{8,50}$");
+    private static final Pattern passwordPattern = Pattern.compile("^(?=.*[a-zA-Z\\d])(?=.*[@#$%^&+=]).{8,50}$"); //CWE-777
+    private static final Pattern usernamePattern = Pattern.compile("^[a-zA-Z0-9_]{1,16}$");
 
     public static void main(String args[]) {
         GroceryListMaker driver = new GroceryListMaker();
@@ -23,7 +24,7 @@ public class GroceryListMaker {
         Scanner scanner = new Scanner(System.in);
         int userInput;
         User curUser = null;
-        final FileHandler fileHandler = new FileHandler(); //CWE-493
+        FileHandler fileHandler = new FileHandler();
         
         while(!endFlag) { // CWE-696
             System.out.println("Select an option: ");
@@ -43,11 +44,12 @@ public class GroceryListMaker {
                     //CWE-749
                     System.out.println("Enter a username (must be at most 16 characters and consist of only lowercase letters, uppercase letters, and numbers): ");
                     String userName = scanner.nextLine();
-                    System.out.println("Enter a password (must be between 8 and 32 characters and must consist of only lowercase letters, uppercase letters, numbers, and the following special characters: !@#$%^&*_+.,?): ");
+                    System.out.println("Enter a password (must be between 8 and 50 characters and must consist of only lowercase letters, uppercase letters, numbers, and the following special characters: @#$%^&+=: ");
                     String password = scanner.nextLine();
 
                     Matcher passwordMatcher = passwordPattern.matcher(password);  //CWE-521
-                    if(passwordMatcher.matches()) {
+                    Matcher usernameMatcher = usernamePattern.matcher(userName);
+                    if(passwordMatcher.matches() && usernameMatcher.matches()) { //CWE-749
                         if(userInput == 1) {
                             curUser = new User(userName, password);
                             fileHandler.writeUser(curUser);
