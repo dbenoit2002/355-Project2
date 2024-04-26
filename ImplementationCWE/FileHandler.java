@@ -16,7 +16,7 @@ public class FileHandler {
         //CWE-73: External Control of File Name or path
         filePath = "ImplementationCWE/data/"; //Fixed path to prevent external manipulation
         userFileName = "user.txt"; //Fixed file name to prevent external manipulation
-        userFile = new File(filePath + sanitizeFileName(userFileName);
+        userFile = new File(filePath + sanitizeFileName(userFileName));
     }
     //CWE-115: Sanitize the file name to make sure the file name is interpreted correctly
     private String sanitizeFileName(String fileName) {
