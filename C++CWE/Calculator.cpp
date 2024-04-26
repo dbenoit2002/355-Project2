@@ -145,7 +145,7 @@ int main() {
                                     }
                                 }
 
-                            }                          
+                                                      
                                 addTotal = 0;
                                 // CWE-125
                                 for(int num : arr) 
@@ -153,7 +153,7 @@ int main() {
                                     addTotal += num;
                                 }
                                 cout << "Result: " << addTotal << endl;
-                                }
+                            }
                             else 
                             {
                                 std::cerr << "There are too few many numbers that you would like to add." << std::endl;
@@ -248,6 +248,7 @@ int main() {
     free(arr); //CWE-416
     arr = NULL; //CWE-415
 }
+
 
 float conMultiplication(int num1, int num2) {
     mutex mutex;
