@@ -9,6 +9,7 @@ using namespace std;
 float conMultiplication(int num1, int num2);
 void multHelper(float *result, mutex *mutex, int num);
 
+//CWE-134 All our print functions are in cout form and we have avoided using printf to prevent format strings
 int main() {
     int userInput = -1; //CWE-457
     float num1, num2 = -1;
@@ -79,64 +80,72 @@ int main() {
                         cin >> arrSizeInput;
                         if(arrSizeInput >= 2) //CWE-192
                         {
-                            arrSizePtr = &arrSizeInput;
-                            arr = static_cast<int*>(malloc(sizeof(*arrSizePtr))); //CWE-467, CWE-170, CWE-122
-                            if (arr == nullptr) {
-                                std::cerr << "Memory allocation failed." << std::endl;
-                            }
-                            else
+                            // Using std::vector to manage the collection of integers for addition.
+                            
+                            // The decision to use std::vector addresses multiple CWEs as follows:
+                            // CWE-119: Protect against operations outside the bounds of memory buffers.
+                            // With std::vector, out-of-bounds operations are automatically mitigated,
+                            // as the container manages its memory footprint, resizing when necessary.
+      
+                            // CWE-401: Prevent memory leaks.
+                            // As std::vector automatically deallocates its memory upon going out of scope,
+                            // this avoids the common memory leaks associated with manual memory management in C++.
+        
+                            // CWE-676: Reduce the use of potentially dangerous functions.
+                            // By eliminating the use of 'malloc' and 'free', we remove the potential risks
+                            // these functions bring, such as improper memory management and dereferencing issues.
+
+                            // CWE-805: Avoid buffer access with incorrect length value.
+                            // The std::vector manages its own size and provides bounds checking, which
+                            // prevents accessing out of its bounds, a common issue with manual array management.
+                            std::vector<int> arr(arrSizeInput);
+                            for (int i = 0; i < arrSizeInput; i++) 
                             {
-                                for(int i = 0; i < arrSizeInput; i++) // CWE-125
+                                cout << "Input number " << i + 1 << " to be added: " << endl;
+                                cin >> arr[i];
+                            }
+                            yesOrNo = "T";
+                            while(yesOrNo == "T") 
+                            {
+                                cout << "Would you like to change any number being added? (T= Yes/F = No)"<< endl;
+                                cin >> yesOrNo;
+                                if(yesOrNo == "T") 
                                 {
-                                    cout << "Input number " << i + 1 << " to be added: " << endl;
-                                    cin >> arr[i];
-                                }
-                                while(yesOrNo == "T"){
-                                    cout << "Would you like to change any number being added? (T = Yes/F = No)"<< endl;
-                                    cin >> yesOrNo;
-                                    if(yesOrNo.size() == 1)
+                                    cout << "What number position would you like to change? (i.e. 1, 2, 3, etc.)"<< endl;
+                                    cin >> numChange;
+                                    numChange--;
+
+                                    if(numChange >= 0 && numChange < arrSizeInput) 
                                     {
-                                        if(yesOrNo == "T")
+                                        cout << "Please input a replacement number: " << endl;
+                                        cin >> replaceNum;
+
+                                        if(replaceNum < std::numeric_limits<short>::max()) 
                                         {
-                                            cout << "What number position would you like to change? (i.e. 1, 2, 3, etc.)"<< endl;
-                                            cin >> numChange;
-                                            numChange--;
-                                            if(numChange >= 0 && numChange < arrSizeInput) //CWE-129
-                                            {
-                                                cout << "Please input a replacement number: "<< endl;
-                                                cin >> replaceNum;
-                                                if(replaceNum < std::numeric_limits<short>::max()) // CWE-197
-                                                {
-                                                    replaceShort = (short)replaceNum;
-                                                    arr[numChange] = replaceShort;
-                                                }
-                                                else
-                                                    arr[numChange] = replaceNum;
-                                            }
-                                            else
-                                            {
-                                                std::cerr << "The number you have selected is out of bounds." << std::endl;
-                                            }
+                                            replaceShort = (short)replaceNum;
+                                            arr[numChange] = replaceShort;
+                                        }
+                                        else 
+                                        {
+                                            arr[numChange] = replaceNum;
                                         }
                                     }
-                                    else
+                                    else 
                                     {
-                                        std::cerr << "Please input either T for yes or F for no." << std::endl;
+                                        std::cerr << "The number you have selected is out of bounds."<< std::endl;
                                         yesOrNo = "T";
                                     }
                                 }
-                                for(int i = 0; i < arrSizeInput; i++)
-                                {
-                                    addTotal += arr[i];
-                                }
-                                cout << "Result: ";
-                                cout << addTotal << endl;
                             }
+                            
                             addTotal = 0;
-                            yesOrNo = "T";
-                            arr = NULL;
-                        }
-                        else
+                            for(int num : arr) 
+                            {
+                                addTotal += num;
+                            }
+                            cout << "Result: " << addTotal << endl;
+                            }
+                        else 
                         {
                             std::cerr << "There are too few many numbers that you would like to add." << std::endl;
                         }
