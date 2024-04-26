@@ -2,8 +2,8 @@ package ImplementationCWE;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class FileHandler {
@@ -12,7 +12,7 @@ public class FileHandler {
     private File userFile;
 
     public FileHandler() {
-        filePath = "data/";
+        filePath = "ImplementationCWE/data/";
         userFileName = "user.txt";
         userFile = new File(filePath + userFileName);
     }
@@ -34,9 +34,10 @@ public class FileHandler {
             userFile.delete();
             userFile.createNewFile();
 
-            FileOutputStream writer = new FileOutputStream(userFile);
-            writer.write(writeUser.getUserName().getBytes(), 0 , writeUser.getUserName().length());
-            writer.write(writeUser.getPassword().getBytes(), 0, writeUser.getPassword().length());
+            PrintWriter writer = new PrintWriter(userFile);
+            writer.write(writeUser.getUserName());
+            writer.println();
+            writer.write(writeUser.getPassword());
 
             writer.close();
             return true;

@@ -1,6 +1,5 @@
 package ImplementationCWE;
 
-import java.io.File;
 import java.util.Scanner;
 
 public class GroceryListMaker {
@@ -38,7 +37,7 @@ public class GroceryListMaker {
                     if(userInput == 1) {
                         curUser = new User(userName, password);
                         fileHandler.writeUser(curUser);
-                        return curUser;
+                        System.out.println("Account successfully created!");
                     }
                     else if(userInput == 2) {
                         User fileUser = fileHandler.readUser();
