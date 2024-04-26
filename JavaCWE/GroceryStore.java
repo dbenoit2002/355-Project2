@@ -73,6 +73,9 @@ public class GroceryStore {
         System.out.println(storeName + "'s ID number is: " + storeID);
     }
     
+    //CWE-502: The program does not perform deserialization of untrusted data,
+    //thus avoiding vulnerabilities associated with deserialization of untrusted content.
+    //No deserialization processes are implemented in the current sysytem.
     public InventoryItem getItem(String name) {
         for(InventoryItem item : inventory) {
             if(item.getName().equals(name)) {
