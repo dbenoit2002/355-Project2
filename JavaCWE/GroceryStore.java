@@ -56,8 +56,8 @@ public class GroceryStore {
     // public Vector<InventoryItem> getInventory() {
     //     return new Vector<>(inventory); // CWE-495
     // }
-    public Vecotr<InventoryItem> getInventory() {
-        Vecotr<InventoryItem> copy = new Vector<>();
+    public Vector<InventoryItem> getInventory() {
+        Vector<InventoryItem> copy = new Vector<>();
         for (InventoryItem item : inventory) {
             copy.add(new InventoryItem(item.getName(), item.getCount(), item.getPrice()));
         }
