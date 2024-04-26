@@ -25,7 +25,7 @@ public class GroceryListMaker {
         User curUser = null;
         final FileHandler fileHandler = new FileHandler(); //CWE-493
         
-        while(!endFlag) {
+        while(!endFlag) { // CWE-696
             System.out.println("Select an option: ");
             System.out.println("0: Exit");
             System.out.println("1: Create an account");
@@ -141,7 +141,7 @@ public class GroceryListMaker {
                         }
                     }
                     else if(userInput == 3) {
-                        if(curUser.deleteItem(item)) {
+                        if(curUser.deleteItem(item)) { // CWE-187
                             System.out.println("Successfully deleted item");
                         }
                         else {
