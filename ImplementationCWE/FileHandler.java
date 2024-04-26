@@ -12,8 +12,10 @@ public class FileHandler {
     private File userFile;
 
     public FileHandler() {
-        filePath = "ImplementationCWE/data/";
-        userFileName = "user.txt";
+        //CWE-15: External control of System or Configuration Setting
+        //CWE-73: External Control of File Name or path
+        filePath = "ImplementationCWE/data/"; //Fixed path to prevent external manipulation
+        userFileName = "user.txt"; //Fixed file name to prevent external manipulation
         userFile = new File(filePath + userFileName);
     }
 
