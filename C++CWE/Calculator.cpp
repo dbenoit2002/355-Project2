@@ -144,8 +144,10 @@ int main() {
                                         }
                                     }
                                 }
-                                
+
+                            }                          
                                 addTotal = 0;
+                                // CWE-125
                                 for(int num : arr) 
                                 {
                                     addTotal += num;
