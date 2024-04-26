@@ -2,6 +2,8 @@ package ImplementationCWE;
 
 import java.util.Scanner;
 
+//CWE-546 (No suspicious comments exist)
+
 public class GroceryListMaker {
     public static void main(String args[]) {
         GroceryListMaker driver = new GroceryListMaker();
@@ -43,7 +45,7 @@ public class GroceryListMaker {
                         System.out.println("Account successfully created!");
                     }
                     else if(userInput == 2) {
-                        User fileUser = fileHandler.readUser();
+                        User fileUser = fileHandler.readUser();   //CWE-259
                         if(fileUser != null && fileUser.getUserName().equals(userName) &&
                            fileUser.getPassword().equals(password)) {
                             curUser = new User(userName, password);
