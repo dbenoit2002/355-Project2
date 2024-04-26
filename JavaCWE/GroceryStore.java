@@ -53,8 +53,16 @@ public class GroceryStore {
     }
 
     //CWE-375: Returning a Mutable Object to an Untrusted Caller, in this case the method returns a new Vector instance.
-    public Vector<InventoryItem> getInventory() {
-        return new Vector<>(inventory); // CWE-495
+    // public Vector<InventoryItem> getInventory() {
+    //     return new Vector<>(inventory); // CWE-495
+    // }
+    public Vecotr<InventoryItem> getInventory() {
+        Vecotr<InventoryItem> copy = new Vector<>();
+        for (InventoryItem item : inventory) {
+            copy.add(new InventoryItem(item.getName(), item.getCount(), item.getPrice()));
+        }
+
+        return copy;
     }
 
     public int getID() {
