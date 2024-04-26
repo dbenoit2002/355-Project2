@@ -5,14 +5,14 @@ public class User {
 
     private String firstName;
     private String lastName;
-    private String cart[]; //CWE-582
+    public String cart[]; //CWE-582, 496
     private int numItems;
-    private float balance;
+    private double balance; //CWE-766
 
-    public User(String fname, String lname, float balance) {
+    public User(String fname, String lname, double balance) {
         firstName = fname;
         lastName = lname;
-        cart = new String[MAX_CART_SIZE];
+        cart = new String[MAX_CART_SIZE]; //CWE-496
         numItems = 0;
         this.balance = balance;
     }
@@ -25,11 +25,16 @@ public class User {
         return lastName;
     }
 
-    public String[] getCart() {
-        return cart;
+    //CWE-767
+    public int getNumItems() {
+        return numItems;
     }
 
-    public float getBalance() {
+    public String getCart(int index) {
+        return cart[index];
+    }
+
+    public double getBalance() {
         return balance;
     }
 
@@ -44,7 +49,7 @@ public class User {
 
     public boolean removeFromCart(String item) {
         for(int i = 0; i < numItems; i++) {
-            if(cart[i] == item) {
+            if(cart[i].equals(item)) {
                 for(int j = i; j < numItems - 1; j++){
                     cart[j] = cart[j+1];
                 }
@@ -55,11 +60,11 @@ public class User {
         return false;
     }
 
-    public void addToBalance(float num) {
+    public void addToBalance(double num) {
         balance += num;
     }
     
-    public void removeFromBalance(float num) {
+    public void removeFromBalance(double num) {
         balance -= num;
     }
     
@@ -70,5 +75,10 @@ public class User {
             }
         }
         return false;
+    }
+
+    //CWE-498
+    public final Object clone() throws java.lang.CloneNotSupportedException {
+        throw new java.lang.CloneNotSupportedException();
     }
 }
