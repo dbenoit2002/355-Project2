@@ -46,7 +46,7 @@ public class GroceryListMaker {
                     System.out.println("Enter a password (must be between 8 and 32 characters and must consist of only lowercase letters, uppercase letters, numbers, and the following special characters: !@#$%^&*_+.,?): ");
                     String password = scanner.nextLine();
 
-                    Matcher passwordMatcher = passwordPattern.matcher(password);      //CWE-521
+                    Matcher passwordMatcher = passwordPattern.matcher(password);  //CWE-521
                     if(passwordMatcher.matches()) {
                         if(userInput == 1) {
                             curUser = new User(userName, password);

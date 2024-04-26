@@ -5,7 +5,7 @@ public class User {
 
     private String firstName;
     private String lastName;
-    public String cart[]; //CWE-582, 496
+    private String cart[]; //CWE-582
     private int numItems;
     private double balance; //CWE-766
 
