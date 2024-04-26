@@ -22,7 +22,7 @@ public class GroceryListMaker {
         Scanner scanner = new Scanner(System.in);
         int userInput;
         User curUser = null;
-        FileHandler fileHandler = new FileHandler();
+        final FileHandler fileHandler = new FileHandler(); //CWE-493
         
         while(!endFlag) {
             System.out.println("Select an option: ");
@@ -39,9 +39,10 @@ public class GroceryListMaker {
                     endFlag = true;
                 }
                 else {
-                    System.out.println("Enter a username: ");
+                    //CWE-749
+                    System.out.println("Enter a username (must be at most 16 characters and consist of only lowercase letters, uppercase letters, and numbers): ");
                     String userName = scanner.nextLine();
-                    System.out.println("Enter a password: ");
+                    System.out.println("Enter a password (must be between 8 and 32 characters and must consist of only lowercase letters, uppercase letters, numbers, and the following special characters: !@#$%^&*_+.,?): ");
                     String password = scanner.nextLine();
 
                     Matcher passwordMatcher = passwordPattern.matcher(password);      //CWE-521
