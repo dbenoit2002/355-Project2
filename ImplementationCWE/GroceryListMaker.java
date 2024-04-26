@@ -1,10 +1,14 @@
 package ImplementationCWE;
 
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 //CWE-546 (No suspicious comments exist)
 
 public class GroceryListMaker {
+    private static final Pattern passwordPattern = Pattern.compile("^(?=.*[a-zA-Z\\d])(?=.*[@#$%^&+=]).{8,50}$");
+
     public static void main(String args[]) {
         GroceryListMaker driver = new GroceryListMaker();
         User user = driver.loginMenu();
@@ -39,20 +43,27 @@ public class GroceryListMaker {
                     String userName = scanner.nextLine();
                     System.out.println("Enter a password: ");
                     String password = scanner.nextLine();
-                    if(userInput == 1) {
-                        curUser = new User(userName, password);
-                        fileHandler.writeUser(curUser);
-                        System.out.println("Account successfully created!");
-                    }
-                    else if(userInput == 2) {
-                        User fileUser = fileHandler.readUser();   //CWE-259
-                        if(fileUser != null && fileUser.getUserName().equals(userName) &&
-                           fileUser.getPassword().equals(password)) {
+
+                    Matcher passwordMatcher = passwordPattern.matcher(password);      //CWE-521
+                    if(passwordMatcher.matches()) {
+                        if(userInput == 1) {
                             curUser = new User(userName, password);
-                            return curUser;
-                        } else {
-                            System.out.println("Error: Incorrect user name or password");
+                            fileHandler.writeUser(curUser);
+                            System.out.println("Account successfully created!");
                         }
+                        else if(userInput == 2) {
+                            User fileUser = fileHandler.readUser();   //CWE-259
+                            if(fileUser != null && fileUser.getUserName().equals(userName) &&
+                            fileUser.getPassword().equals(password)) {
+                                curUser = new User(userName, password);
+                                return curUser;
+                            } else {
+                                System.out.println("Error: Incorrect username or password");
+                            }
+                        }
+                    }
+                    else {
+                        System.out.println("Error: Incorrect username or password");
                     }
                 }
             } catch(NumberFormatException e) {
