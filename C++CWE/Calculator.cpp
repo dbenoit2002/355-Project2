@@ -139,7 +139,7 @@ int main() {
                             }
                             
                             addTotal = 0;
-                            for(int num : arr) 
+                            for(int num : arr) // CWE-125 
                             {
                                 addTotal += num;
                             }
