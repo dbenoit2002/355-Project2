@@ -33,7 +33,7 @@ int main() {
         cout << "3: multiplication" << endl;
         cout << "4: multithreaded multiplication" << endl;
         cout << "5: division" << endl;
-        cout << "6: memory allocated addition" << endl;
+        cout << "6: vector addition" << endl;
         cout << "7: memory allocated multiplication" << endl;
 
         cin >> userInput;
