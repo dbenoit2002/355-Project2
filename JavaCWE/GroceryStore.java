@@ -35,7 +35,7 @@ public class GroceryStore {
             return price;
         }
         private void updateCount(int count) {
-            this.itemCount = count;
+            this.itemCount = count; // CWE-481
         }
         private void updatePrice(double itemPrice)
         {
@@ -53,7 +53,7 @@ public class GroceryStore {
     }
 
     public Vector<InventoryItem> getInventory() {
-        return inventory;
+        return new Vector<>(inventory); // CWE-495
     }
 
     public int getID() {
@@ -71,6 +71,24 @@ public class GroceryStore {
             }
         }
         return null;
+    }
+
+    public double getItemPrice(String name) {
+        for(InventoryItem item : inventory) {
+            if(item.getName().equals(name)) {
+                return item.getPrice();
+            }
+        }
+        return 0.0;
+    }
+
+    public int getItemCount(String name) {
+        for(InventoryItem item : inventory) {
+            if(item.getName().equals(name)) {
+                return item.getCount();
+            }
+        }
+        return -1;
     }
 
     public boolean addItem(String name, int count, double itemPrice) {
@@ -92,19 +110,17 @@ public class GroceryStore {
     }
 
     public boolean updateItemCount(String name, int count) {
-        try{
+        /* try{ */
         for(InventoryItem item : inventory) {
             if(item.getName().equals(name)) {
                 item.updateCount(count);
                 return true;
-            }else{
-                throw new NullPointerException("Error"); 
             }
         }
-        }catch (NullPointerException e){
-            System.out.println("Could not find item " + name);
+        /* }catch (NullPointerException e){
         } //CWE-248 and CWE-396
-        //CWE-537 (current item count is not exposed)
+         */
+        System.out.println("Could not find item " + name); //CWE-537 (current item count is not exposed)
         return false;
     }
 
