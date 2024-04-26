@@ -12,7 +12,7 @@ void multHelper(float *result, mutex *mutex, int num);
 //CWE-134 All our print functions are in cout form and we have avoided using printf to prevent format strings
 int main() {
     int userInput = -1; //CWE-457
-    float num1, num2 = -1;
+    double num1, num2 = -1;
     bool endFlag = false;
     int arrSizeInput = 0;
     int* arrSizePtr;
