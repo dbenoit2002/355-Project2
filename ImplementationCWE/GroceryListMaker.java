@@ -1,6 +1,7 @@
 package ImplementationCWE;
 
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 //CWE-546 (No suspicious comments exist)
 
@@ -18,7 +19,7 @@ public class GroceryListMaker {
         Scanner scanner = new Scanner(System.in);
         int userInput;
         User curUser = null;
-        FileHandler fileHandler = new FileHandler();
+        final FileHandler fileHandler = new FileHandler(); //CWE-493
         
         while(!endFlag) {
             System.out.println("Select an option: ");
@@ -35,14 +36,21 @@ public class GroceryListMaker {
                     endFlag = true;
                 }
                 else {
-                    System.out.println("Enter a username: ");
+                    //CWE-749
+                    System.out.println("Enter a username (must be at most 16 characters and consist of only lowercase letters, uppercase letters, and numbers): ");
                     String userName = scanner.nextLine();
-                    System.out.println("Enter a password: ");
+                    System.out.println("Enter a password (must be between 8 and 32 characters and must consist of only lowercase letters, uppercase letters, numbers, and the following special characters: !@#$%^&*_+.,?): ");
                     String password = scanner.nextLine();
                     if(userInput == 1) {
-                        curUser = new User(userName, password);
-                        fileHandler.writeUser(curUser);
-                        System.out.println("Account successfully created!");
+                        //CWE-777
+                        if(Pattern.matches("^[a-zA-Z0-9]{1,16}$", userName) && Pattern.matches("^[a-zA-z0-9!@#$%^&*_+.,?]{8,32}$", password)){
+                            curUser = new User(userName, password);
+                            fileHandler.writeUser(curUser);
+                            System.out.println("Account successfully created!");
+                        }
+                        else{
+                            System.out.println("Invalid username or password!");
+                        }
                     }
                     else if(userInput == 2) {
                         User fileUser = fileHandler.readUser();   //CWE-259

@@ -11,7 +11,7 @@ void multHelper(float *result, mutex *mutex, int num);
 
 int main() {
     int userInput = -1; //CWE-457
-    float num1, num2 = -1;
+    float num1, num2 = -1; //CWE-191
     bool endFlag = false;
     int arrSizeInput = 0;
     int* arrSizePtr;
@@ -37,7 +37,7 @@ int main() {
 
         cin >> userInput;
         if(cin) {
-            if(userInput == 0) { //CWE-480
+            if(userInput == 0) { //CWE-480, CWE-482
                 cout << "Program ran " << loopCount << " times!" << endl;
                 cout << "Goodbye" << endl;
                 endFlag = true;
@@ -59,157 +59,166 @@ int main() {
                     {
                         cout << "Result: ";
                     }
-                    if(userInput == 1) { //CWE-482
-                        cout << num1 + num2 << endl;
-                    }
-                    else if(userInput == 2) {
-                        cout << num1 - num2 << endl;
-                    }
-                    else if(userInput == 3) {
-                        cout << num1 * num2 << endl;
-                    }
-                    else if(userInput == 4) {
-                        cout << conMultiplication(num1, num2) << endl;
-                    }
-                    else if(userInput == 5) {
-                        cout << num1 / num2 << endl;
-                    }
-                    else if(userInput == 6) {
-                        cout << "How many numbers would you like to add? (Must be at least 2)" << endl;
-                        cin >> arrSizeInput;
-                        if(arrSizeInput >= 2) //CWE-192
-                        {
-                            arrSizePtr = &arrSizeInput;
-                            arr = static_cast<int*>(malloc(sizeof(*arrSizePtr))); //CWE-467, CWE-170, CWE-122
-                            if (arr == nullptr) {
-                                std::cerr << "Memory allocation failed." << std::endl;
+                    switch(userInput){ //CWE-484
+                        case 1:
+                            cout << num1 + num2 << endl;
+                            break;
+                        
+                        case 2:
+                            cout << num1 - num2 << endl;
+                            break;
+                        
+                        case 3:
+                            cout << num1 * num2 << endl;
+                            break;
+                        
+                        case 4:
+                            cout << conMultiplication(num1, num2) << endl;
+                            break;
+                        
+                        case 5:
+                            cout << num1 / num2 << endl;
+                            break;
+                        
+                        case 6:
+                            cout << "How many numbers would you like to add? (Must be at least 2)" << endl;
+                            cin >> arrSizeInput;
+                            if(arrSizeInput >= 2) //CWE-192, CWE-483
+                            {
+                                arrSizePtr = &arrSizeInput;
+                                arr = static_cast<int*>(malloc(sizeof(*arrSizePtr))); //CWE-467, CWE-170, CWE-122
+                                if (arr == nullptr) {
+                                    std::cerr << "Memory allocation failed." << std::endl;
+                                }
+                                else
+                                {
+                                    for(int i = 0; i < arrSizeInput; i++) // CWE-125
+                                    {
+                                        cout << "Input number " << i + 1 << " to be added: " << endl;
+                                        cin >> arr[i];
+                                    }
+                                    while(yesOrNo == "T"){
+                                        cout << "Would you like to change any number being added? (T = Yes/F = No)"<< endl;
+                                        cin >> yesOrNo;
+                                        if(yesOrNo.size() == 1)
+                                        {
+                                            if(yesOrNo == "T")
+                                            {
+                                                cout << "What number position would you like to change? (i.e. 1, 2, 3, etc.)"<< endl;
+                                                cin >> numChange;
+                                                numChange--;
+                                                if(numChange >= 0 && numChange < arrSizeInput) //CWE-129
+                                                {
+                                                    cout << "Please input a replacement number: "<< endl;
+                                                    cin >> replaceNum;
+                                                    if(replaceNum < std::numeric_limits<short>::max()) // CWE-197
+                                                    {
+                                                        replaceShort = (short)replaceNum;
+                                                        arr[numChange] = replaceShort;
+                                                    }
+                                                    else
+                                                        arr[numChange] = replaceNum;
+                                                }
+                                                else
+                                                {
+                                                    std::cerr << "The number you have selected is out of bounds." << std::endl;
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            std::cerr << "Please input either T for yes or F for no." << std::endl;
+                                            yesOrNo = "T";
+                                        }
+                                    }
+                                    for(int i = 0; i < arrSizeInput; i++)
+                                    {
+                                        addTotal += arr[i];
+                                    }
+                                    cout << "Result: ";
+                                    cout << addTotal << endl;
+                                }
+                                addTotal = 0;
+                                yesOrNo = "T";
+                                arr = NULL;
                             }
                             else
                             {
-                                for(int i = 0; i < arrSizeInput; i++) // CWE-125
-                                {
-                                    cout << "Input number " << i + 1 << " to be added: " << endl;
-                                    cin >> arr[i];
+                                std::cerr << "There are too few many numbers that you would like to add." << std::endl;
+                            }
+                            break;
+                        
+                        case 7:
+                            cout << "How many numbers would you like to multiply? (Must be at least 2)" << endl;
+                            cin >> arrSizeInput;
+                            if(arrSizeInput >= 2) //CWE-192
+                            {
+                                arrSizePtr = &arrSizeInput;
+                                arr = static_cast<int*>(malloc(sizeof(*arrSizePtr))); //CWE-467, CWE-170, CWE-122, CWE-704
+                                if (arr == nullptr) {
+                                    std::cerr << "Memory allocation failed." << std::endl;
                                 }
-                                while(yesOrNo == "T"){
-                                    cout << "Would you like to change any number being added? (T = Yes/F = No)"<< endl;
-                                    cin >> yesOrNo;
-                                    if(yesOrNo.size() == 1)
+                                else
+                                {
+                                    for(int i = 0; i < arrSizeInput; i++)
                                     {
-                                        if(yesOrNo == "T")
+                                        cout << "Input number " << i + 1 << " to be multiplied: " << endl;
+                                        cin >> arr[i];
+                                    }
+                                    while(yesOrNo == "T"){
+                                        cout << "Would you like to change any number being multiplied? (T = Yes/F = No)"<< endl;
+                                        cin >> yesOrNo;
+                                        if(yesOrNo.size() == 1)
                                         {
-                                            cout << "What number position would you like to change? (i.e. 1, 2, 3, etc.)"<< endl;
-                                            cin >> numChange;
-                                            numChange--;
-                                            if(numChange >= 0 && numChange < arrSizeInput) //CWE-129
+                                            if(yesOrNo == "T")
                                             {
-                                                cout << "Please input a replacement number: "<< endl;
-                                                cin >> replaceNum;
-                                                if(replaceNum < std::numeric_limits<short>::max()) // CWE-197
+                                                cout << "What number position would you like to change? (i.e. 1, 2, 3, etc.)"<< endl;
+                                                cin >> numChange;
+                                                numChange--;
+                                                if(numChange >= 0 && numChange < arrSizeInput) //CWE-129
                                                 {
-                                                    replaceShort = (short)replaceNum;
-                                                    arr[numChange] = replaceShort;
+                                                    cout << "Please input a replacement number: "<< endl;
+                                                    cin >> replaceNum;
+                                                    if(replaceNum < std::numeric_limits<short>::max()) // CWE-197
+                                                    {
+                                                        replaceShort = (short)replaceNum;
+                                                        arr[numChange] = replaceShort;
+                                                    }
+                                                    else
+                                                        arr[numChange] = replaceNum;
                                                 }
                                                 else
-                                                    arr[numChange] = replaceNum;
-                                            }
-                                            else
-                                            {
-                                                std::cerr << "The number you have selected is out of bounds." << std::endl;
+                                                {
+                                                    std::cerr << "The number you have selected is out of bounds." << std::endl;
+                                                }
                                             }
                                         }
+                                        else
+                                        {
+                                            std::cerr << "Please input either T for yes or F for no." << std::endl;
+                                            yesOrNo = "T";
+                                        }
                                     }
-                                    else
+                                    for(int i = 0; i < arrSizeInput; i++)
                                     {
-                                        std::cerr << "Please input either T for yes or F for no." << std::endl;
-                                        yesOrNo = "T";
+                                        multiTotal = multiTotal * arr[i];
                                     }
+                                    cout << "Result: ";
+                                    cout << multiTotal << endl;
                                 }
-                                for(int i = 0; i < arrSizeInput; i++)
-                                {
-                                    addTotal += arr[i];
-                                }
-                                cout << "Result: ";
-                                cout << addTotal << endl;
-                            }
-                            addTotal = 0;
-                            yesOrNo = "T";
-                            arr = NULL;
-                        }
-                        else
-                        {
-                            std::cerr << "There are too few many numbers that you would like to add." << std::endl;
-                        }
-                    }
-                    else if(userInput == 7) {
-                        cout << "How many numbers would you like to multiply? (Must be at least 2)" << endl;
-                        cin >> arrSizeInput;
-                        if(arrSizeInput >= 2) //CWE-192
-                        {
-                            arrSizePtr = &arrSizeInput;
-                            arr = static_cast<int*>(malloc(sizeof(*arrSizePtr))); //CWE-467, CWE-170, CWE-122
-                            if (arr == nullptr) {
-                                std::cerr << "Memory allocation failed." << std::endl;
+                                multiTotal = 1;
+                                yesOrNo = "T";
+                                arr = NULL;
                             }
                             else
                             {
-                                for(int i = 0; i < arrSizeInput; i++)
-                                {
-                                    cout << "Input number " << i + 1 << " to be multiplied: " << endl;
-                                    cin >> arr[i];
-                                }
-                                while(yesOrNo == "T"){
-                                    cout << "Would you like to change any number being multiplied? (T = Yes/F = No)"<< endl;
-                                    cin >> yesOrNo;
-                                    if(yesOrNo.size() == 1)
-                                    {
-                                        if(yesOrNo == "T")
-                                        {
-                                            cout << "What number position would you like to change? (i.e. 1, 2, 3, etc.)"<< endl;
-                                            cin >> numChange;
-                                            numChange--;
-                                            if(numChange >= 0 && numChange < arrSizeInput) //CWE-129
-                                            {
-                                                cout << "Please input a replacement number: "<< endl;
-                                                cin >> replaceNum;
-                                                if(replaceNum < std::numeric_limits<short>::max()) // CWE-197
-                                                {
-                                                    replaceShort = (short)replaceNum;
-                                                    arr[numChange] = replaceShort;
-                                                }
-                                                else
-                                                    arr[numChange] = replaceNum;
-                                            }
-                                            else
-                                            {
-                                                std::cerr << "The number you have selected is out of bounds." << std::endl;
-                                            }
-                                        }
-                                    }
-                                    else
-                                    {
-                                        std::cerr << "Please input either T for yes or F for no." << std::endl;
-                                        yesOrNo = "T";
-                                    }
-                                }
-                                for(int i = 0; i < arrSizeInput; i++)
-                                {
-                                    multiTotal = multiTotal * arr[i];
-                                }
-                                cout << "Result: ";
-                                cout << multiTotal << endl;
+                                std::cerr << "There are too few many numbers that you would like to multiply." << std::endl;
                             }
-                            multiTotal = 1;
-                            yesOrNo = "T";
-                            arr = NULL;
-                        }
-                        else
-                        {
-                            std::cerr << "There are too few many numbers that you would like to multiply." << std::endl;
-                        }
+                            break;
                     }
+                    
                 }
-                else {
+                else{
                     cin.clear();
                     cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                     cout << "Please enter a number" << endl;

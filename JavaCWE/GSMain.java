@@ -199,34 +199,45 @@ public class GSMain {
                 userInputGS = Integer.parseInt(scan.nextLine());
                 if(userInputGS >= 0 && userInputGS <= 6)
                 {
-                    if(userInputGS == 0)
-                    {
-                        System.out.println("Goodbye");
-                        endFlagGS = true;
-                    }
-                    else if(userInputGS == 1)
-                    {
-                        main.mainAddItem(scan, gs);
-                    }
-                    else if(userInputGS == 2)
-                    {
-                        main.mainUpdateCount(scan, gs);
-                    }
-                    else if(userInputGS == 3)
-                    {
-                        main.mainRemoveItem(scan, gs);
-                    }
-                    else if(userInputGS == 4)
-                    {
-                        main.mainUpdatePrice(scan, gs);
-                    }
-                    else if(userInputGS == 5)
-                    {
-                        gs.printStoreID();
-                    }
-                    else if(userInputGS == 6)
-                    {
-                        gs.printInventory();
+                    //CWE-484
+                    switch(userInputGS){
+
+                        case 0:
+                        
+                            System.out.println("Goodbye");
+                            endFlagGS = true;
+                            break;
+                        
+                        case 1:
+                        
+                            main.mainAddItem(scan, gs);
+                            break;
+                        
+                        case 2:
+                        
+                            main.mainUpdateCount(scan, gs);
+                            break;
+                        
+                        case 3:
+                        
+                            main.mainRemoveItem(scan, gs);
+                            break;
+                        
+                        case 4:
+                        
+                            main.mainUpdatePrice(scan, gs);
+                            break;
+                        
+                        case 5:
+                        
+                            gs.printStoreID();
+                            break;
+                        
+                        case 6:
+                        
+                            gs.printInventory();
+                            break;
+                        
                     }
                 }
                 else
