@@ -5,14 +5,14 @@ public class User {
 
     private String firstName;
     private String lastName;
-    private String cart[]; //CWE-582
+    public String cart[]; //CWE-582, 496
     private int numItems;
-    private double balance;
+    private double balance; //CWE-766
 
     public User(String fname, String lname, double balance) {
         firstName = fname;
         lastName = lname;
-        cart = new String[MAX_CART_SIZE];
+        cart = new String[MAX_CART_SIZE]; //CWE-496
         numItems = 0;
         this.balance = balance;
     }
@@ -25,6 +25,7 @@ public class User {
         return lastName;
     }
 
+    //CWE-767
     public int getNumItems() {
         return numItems;
     }
@@ -74,5 +75,10 @@ public class User {
             }
         }
         return false;
+    }
+
+    //CWE-498
+    public final Object clone() throws java.lang.CloneNotSupportedException {
+        throw new java.lang.CloneNotSupportedException();
     }
 }
