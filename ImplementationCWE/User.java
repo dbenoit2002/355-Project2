@@ -22,15 +22,6 @@ public class User {
     public HashMap<String, Integer> getGroceryList() {
         return groceryList;
     }
-    public void addItem(String item) {
-        Integer curCount = groceryList.get(item);
-        if(curCount != null) {
-            groceryList.put(item, curCount + 1);
-        }
-        else {
-            groceryList.put(item, 1);
-        }
-    }
     public void addItem(String item, Integer count) {
         Integer curCount = groceryList.get(item);
         if(curCount != null) {
@@ -40,7 +31,7 @@ public class User {
             groceryList.put(item, count);
         }
     }
-    public boolean removeItem(String item) {
+    public boolean deleteItem(String item) {
         Integer curCount = groceryList.get(item);
         if(curCount != null) {
             groceryList.remove(item);
