@@ -49,7 +49,7 @@ public class User {
                 return true;
             }
             else if(curCount > count) {
-                groceryList.put(item, curCount - count);
+                groceryList.put(item, curCount - count); // CWE-787
                 return true;
             }
             else {
@@ -59,5 +59,24 @@ public class User {
         else {
             return false;
         }
+    }
+    public boolean divideItem(String item, Integer divideNum) {
+        if(divideNum > 0) //CWE-369
+        {
+            Integer curCount = groceryList.get(item);
+            if(curCount != null) {
+                if(divideNum != 1) {
+                    groceryList.put(item, curCount / divideNum);
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            else {
+                return false;
+            }
+        }
+        return false;
     }
 }

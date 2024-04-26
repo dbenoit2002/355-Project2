@@ -195,54 +195,57 @@ public class GSMain {
                 System.out.println("4: Update the price of a specific item in the store's inventory");
                 System.out.println("5: Get the store ID number");
                 System.out.println("6: Print inventory");
+                try {
+                    userInputGS = Integer.parseInt(scan.nextLine());
+                    if(userInputGS >= 0 && userInputGS <= 6)
+                    {
+                        //CWE-484
+                        switch(userInputGS){
 
-                userInputGS = Integer.parseInt(scan.nextLine());
-                if(userInputGS >= 0 && userInputGS <= 6)
-                {
-                    //CWE-484
-                    switch(userInputGS){
-
-                        case 0:
-                        
-                            System.out.println("Goodbye");
-                            endFlagGS = true;
-                            break;
-                        
-                        case 1:
-                        
-                            main.mainAddItem(scan, gs);
-                            break;
-                        
-                        case 2:
-                        
-                            main.mainUpdateCount(scan, gs);
-                            break;
-                        
-                        case 3:
-                        
-                            main.mainRemoveItem(scan, gs);
-                            break;
-                        
-                        case 4:
-                        
-                            main.mainUpdatePrice(scan, gs);
-                            break;
-                        
-                        case 5:
-                        
-                            gs.printStoreID();
-                            break;
-                        
-                        case 6:
-                        
-                            gs.printInventory();
-                            break;
-                        
+                            case 0:
+                            
+                                System.out.println("Goodbye");
+                                endFlagGS = true;
+                                break;
+                            
+                            case 1:
+                            
+                                main.mainAddItem(scan, gs);
+                                break;
+                            
+                            case 2:
+                            
+                                main.mainUpdateCount(scan, gs);
+                                break;
+                            
+                            case 3:
+                            
+                                main.mainRemoveItem(scan, gs);
+                                break;
+                            
+                            case 4:
+                            
+                                main.mainUpdatePrice(scan, gs);
+                                break;
+                            
+                            case 5:
+                            
+                                gs.printStoreID();
+                                break;
+                            
+                            case 6:
+                            
+                                gs.printInventory();
+                                break;
+                            
+                        }
                     }
-                }
-                else
-                {
-                    System.out.println("Please enter a valid option");
+                    else
+                    {
+                        System.out.println("Please enter a valid option");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Please enter a number");
                 }
             }
             user = main.mainCreateUser(scan);
@@ -257,33 +260,37 @@ public class GSMain {
                     System.out.println("3: Deposit to balance");
                     System.out.println("4: Withdraw from balance");
 
-                    userInputUser = Integer.parseInt(scan.nextLine());
-                    if(userInputUser >= 0 && userInputUser <= 4)
-                    {
-                        if(userInputUser == 0)
+                    try {
+                        userInputUser = Integer.parseInt(scan.nextLine());
+                        if(userInputUser >= 0 && userInputUser <= 4)
                         {
-                            endFlagUser = main.userCheckout(user, gs); // CWE-382
+                            if(userInputUser == 0)
+                            {
+                                endFlagUser = main.userCheckout(user, gs); // CWE-382
+                            }
+                            else if(userInputUser == 1)
+                            {
+                                main.mainAddToCart(scan, user, gs);
+                            }
+                            else if(userInputUser == 2)
+                            {
+                                main.mainRemoveFromCart(scan, user, gs);
+                            }
+                            else if(userInputUser == 3)
+                            {
+                                main.mainAddToBalance(scan, user);
+                            }
+                            else if(userInputUser == 4)
+                            {
+                                main.mainRemoveFromBalance(scan, user);
+                            }
                         }
-                        else if(userInputUser == 1)
+                        else
                         {
-                            main.mainAddToCart(scan, user, gs);
+                            System.out.println("Please enter a valid option");
                         }
-                        else if(userInputUser == 2)
-                        {
-                            main.mainRemoveFromCart(scan, user, gs);
-                        }
-                        else if(userInputUser == 3)
-                        {
-                            main.mainAddToBalance(scan, user);
-                        }
-                        else if(userInputUser == 4)
-                        {
-                            main.mainRemoveFromBalance(scan, user);
-                        }
-                    }
-                    else
-                    {
-                        System.out.println("Please enter a valid option");
+                    } catch (NumberFormatException e) {
+                        System.out.println("Please enter a number");
                     }
                 }
             }
