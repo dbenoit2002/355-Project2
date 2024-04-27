@@ -87,24 +87,21 @@ int main() {
                             cin >> arrSizeInput;
                             if(arrSizeInput >= 2) //CWE-192
                             {
-                                // Using std::vector to manage the collection of integers for addition.
-                                
-                                // The decision to use std::vector addresses multiple CWEs as follows:
-                                // CWE-119: Protect against operations outside the bounds of memory buffers.
-                                // With std::vector, out-of-bounds operations are automatically mitigated,
-                                // as the container manages its memory footprint, resizing when necessary.
+                                //The decision to use std::vector addresses multiple CWEs as follows:
+                            
+                                //CWE-119: The use of std::vector mitigates the risk of buffer overflow errors since it handles its size dynamically and performs bounds checking
+      
+                                //CWE-401: Prevent memory leaks.
+                                //As std::vector automatically deallocates its memory upon going out of scope,
+                                //this avoids the common memory leaks associated with manual memory management in C++.
         
-                                // CWE-401: Prevent memory leaks.
-                                // As std::vector automatically deallocates its memory upon going out of scope,
-                                // this avoids the common memory leaks associated with manual memory management in C++.
-            
-                                // CWE-676: Reduce the use of potentially dangerous functions.
-                                // By eliminating the use of 'malloc' and 'free', we remove the potential risks
-                                // these functions bring, such as improper memory management and dereferencing issues.
+                                //CWE-676: Reduce the use of potentially dangerous functions.
+                                //By removing the use of malloc and free, we remove the potential risks
+                                //these functions bring, such as improper memory management and dereferencing issues.
 
-                                // CWE-805: Avoid buffer access with incorrect length value.
-                                // The std::vector manages its own size and provides bounds checking, which
-                                // prevents accessing out of its bounds, a common issue with manual array management.
+                                //CWE-805: Avoid buffer access with incorrect length value.
+                                //The std::vector manages its own size and provides bounds checking, which
+                                //prevents accessing out of its bounds, a common issue with manual array management.
                                 std::vector<int> arr(arrSizeInput);
                                 for (int i = 0; i < arrSizeInput; i++) 
                                 {
