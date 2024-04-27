@@ -147,7 +147,7 @@ public class GroceryStore {
                 }
             }
         }catch (NullPointerException e){
-            System.out.println("Could not find the specified item."); //CWE-209 - Avoiding exposure of sensitive information through error messages.
+            System.out.println("Could not find the specified item."); //CWE-537, CWE-209 - Avoiding exposure of sensitive information through error messages.
         } //CWE-248 and CWE-396
         
         return false;
