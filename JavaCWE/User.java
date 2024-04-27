@@ -1,11 +1,13 @@
 package JavaCWE;
 
+import java.util.Arrays;
+
 public class User {
     public static final int MAX_CART_SIZE = 1000;
 
     private String firstName;
     private String lastName;
-    private String cart[]; //CWE-582
+    private String cart[]; //CWE-582, 607
     private int numItems;
     private double balance; //CWE-766
 
@@ -30,8 +32,12 @@ public class User {
         return numItems;
     }
 
-    public String getCart(int index) {
-        return cart[index];
+    // public String getCart(int index) {
+    //     return cart[index];
+    // }
+    //CWE-607: Prevents outside code from having direct access to the array cart.
+    public String[] getCartCopy() {
+        return Arrays.copyOf(cart, cart.length);
     }
 
     public double getBalance() {
