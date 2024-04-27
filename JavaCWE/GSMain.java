@@ -151,9 +151,10 @@ public class GSMain {
         DecimalFormat df = new DecimalFormat("#.00");
         double total = 0;
         String printFormat;
+        String[] cart = user.getCartCopy();
         for(int i = 0; i < user.getNumItems(); i++)
         {
-            total += gs.getItemPrice(user.getCart(i));
+            total += gs.getItemPrice(cart[i]);
         }
         if(user.getBalance() > total)
         {
