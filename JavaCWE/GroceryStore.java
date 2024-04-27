@@ -52,8 +52,17 @@ public class GroceryStore {
         return storeName;
     }
 
+    //CWE-375: Returning a Mutable Object to an Untrusted Caller, in this case the method returns a new Vector instance.
+    // public Vector<InventoryItem> getInventory() {
+    //     return new Vector<>(inventory); // CWE-495
+    // }
     public Vector<InventoryItem> getInventory() {
-        return new Vector<>(inventory); // CWE-495
+        Vector<InventoryItem> copy = new Vector<>();
+        for (InventoryItem item : inventory) {
+            copy.add(new InventoryItem(item.getName(), item.getCount(), item.getPrice()));
+        }
+
+        return copy;
     }
 
     public int getID() {
@@ -64,6 +73,9 @@ public class GroceryStore {
         System.out.println(storeName + "'s ID number is: " + storeID);
     }
     
+    //CWE-502: The program does not perform deserialization of untrusted data,
+    //thus avoiding vulnerabilities associated with deserialization of untrusted content.
+    //No deserialization processes are implemented in the current sysytem.
     public InventoryItem getItem(String name) {
         for(InventoryItem item : inventory) {
             if(item.getName().equals(name)) {
@@ -120,7 +132,7 @@ public class GroceryStore {
         /* }catch (NullPointerException e){
         } //CWE-248 and CWE-396
          */
-        System.out.println("Could not find item " + name);
+        System.out.println("Could not find the specified item."); //CWE-209 - Avoiding exposure of sensitive information through error messages.
         return false;
     }
 
@@ -135,7 +147,7 @@ public class GroceryStore {
                 }
             }
         }catch (NullPointerException e){
-            System.out.println("Could not find item " + name); //CWE-537 (current item count is not exposed)
+            System.out.println("Could not find the specified item."); //CWE-209 - Avoiding exposure of sensitive information through error messages.
         } //CWE-248 and CWE-396
         
         return false;
@@ -149,7 +161,7 @@ public class GroceryStore {
                 return true;
             }
         }
-        System.out.println("Could not find item " + name); //CWE-537 (current item count is not exposed)
+        System.out.println("Could not find the specified item."); //CWE-209 - Avoiding exposure of sensitive information through error messages.
         return false;
     }
     
