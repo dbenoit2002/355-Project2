@@ -140,9 +140,7 @@ int main() {
                                             yesOrNo = "T";
                                         }
                                     }
-                                }
-
-                            }                          
+                                }                         
                                 addTotal = 0;
                                 // CWE-125
                                 for(int num : arr) 
