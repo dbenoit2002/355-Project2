@@ -49,7 +49,7 @@ public class User {
                 return true;
             }
             else if(curCount > count) {
-                groceryList.put(item, curCount - count);
+                groceryList.put(item, curCount - count); // CWE-787
                 return true;
             }
             else {

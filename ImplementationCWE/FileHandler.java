@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class FileHandler {
     private String filePath;
-    private String userFileName;
+    public final String userFileName; //CWE-493
     private File userFile;
 
     public FileHandler() {
